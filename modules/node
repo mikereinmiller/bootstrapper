@@ -7,15 +7,20 @@ if [ ! -d $NVM_DIR ]; then
 	# curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
 	# source ~/.zshrc  ?
 	# nvm install node
-	# nvm use node
+	# nvm use node ?
+	# nvm alis default node ?
 fi
 
 # Make sure NPM is up to date
 # npm install npm@latest -g
 
-# Install various NPM global packages
+# Install some handy NPM packages globally
 # npm install --global brunch
 # npm install --global coffee-script
 # npm install --global caniuse-cmd
 # npm install --global speed-test
 # npm install --global redis-commander
+
+if [ "$INSTALL_REACT_NATIVE" = true ]; then
+	# npm install --global react-native-cli
+fi

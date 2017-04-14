@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Since this file makes so many system level changes, I decided to not put it as
+# part of the default install script.  You will need to run this separately after
+# reviewing the macos.local file.
+
 set -e
 
 # ------------------------------------------------------------------------------

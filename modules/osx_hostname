@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Set computer and host name (as done via System Preferences → Sharing)
+
 if [ "$HOST_NAME" != "$(HOSTNAME)" ]; then
 	fancy_info "Updating Host Name: $HOST_NAME"
 	# sudo scutil --set HostName "$HOST_NAME"

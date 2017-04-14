@@ -20,9 +20,6 @@ export INSTALL_ELASTIC_SEARCH=true
 # Must be either rbenv, rvm or chruby
 export RUBY_VERSION_MANAGER=''
 
-# Specify latest or specific version returned from ruby manager
-export DEFAULT_GLOBAL_RUBY='latest'
-
 # Signin Credentials for MAS-CLI, password will be prompted when required
 export MAS_SIGNIN_EMAIL=''
 

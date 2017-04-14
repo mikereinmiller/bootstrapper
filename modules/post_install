@@ -1,7 +1,73 @@
 #!/usr/bin/env bash
 
-# Make sure the appropriate directories are created
-# Make sure the hosts file has been updates (rabbitmq)
-# ect, etc.
+# Force Homebrew to link current OpenSSL version (overrides osx default)
+openssl="$(brew list --versions | grep openssl)"
+ln -s "/usr/local/Cellar/openssl/${openssl: -6}/bin/openssl" "/usr/local/bin/openssl"
 
-# TODO: Make appropriate app specific tweaks after installations
+# Update and Install Gems
+# gem update --system
+# gem install bundler
+# gem install rails
+# gem install foreman
+
+# Postgres Gem needs a little TLC
+# gem install pg — —with-pg-config=/usr/local/bin/pg_config
+
+# Start MySQL / MariaDB Service
+if brew ls --versions mysql > /dev/null; then
+  # brew services start mysql
+elif brew ls --versions mariadb > /dev/null; then
+  # brew servies start mariadb
+fi
+
+# Start Postgres Service
+if brew ls --versions postgres > /dev/null; then
+  # brew services start postgresql
+fi
+
+if brew ls --versions memcached > /dev/null; then
+  # brew services start memcached
+fi
+
+# Start Redis Service
+if brew ls --versions redis > /dev/null; then
+  # Make sure redis configs exist and start service
+  if [ ! -f /usr/local/etc/redis.conf ]; then
+    # cp /usr/local/etc/redis.conf.default /usr/local/etc/redis.conf
+  fi
+
+  if [ ! -d /usr/local/var/db/redis ]; then
+    # mkdir -p /usr/local/var/db/redis
+  fi
+
+  # brew services start redis
+fi
+
+# Start RabbitMQ Service
+if brew ls --versions rabbitmq > /dev/null; then
+  # Install Rabbit Delayed Messages Exchange Plugin
+  # wget -O /usr/local/opt/rabbitmq/plugins/abbitmq_delayed_message_exchange-0.0.1.ez https://bintray.com/rabbitmq/community-plugins/download_file?file_path=rabbitmq_delayed_message_exchange-0.0.1.ez
+
+  # Enable It
+  # /usr/local/opt/rabbitmq/sbin/rabbitmq-plugins enable rabbitmq_delayed_message_exchange
+
+  # Attempt to update host file to correctly work with rabbitmq
+  # echo "127.0.0.1 ${HOST_NAME}" >> /etc/hosts
+  # echo "127.0.0.1 ${HOST_NAME,,}" >> /etc/hosts
+  # echo "::1 ${HOST_NAME}" >> /etc/hosts
+  # echo "::1 ${HOST_NAME,,}" >> /etc/hosts
+
+  # killall -HUP mDNSResponder
+  # brew services start rabbitmq
+fi
+
+# Start ElasticSearch Service
+if brew ls --versions elasticsearch > /dev/null; then
+  # brew services start elasticsearch
+fi
+
+# Install Mix and Phoenix
+if command -v elixir > /dev/null; then
+  # mix local.hex
+  # mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
+fi
