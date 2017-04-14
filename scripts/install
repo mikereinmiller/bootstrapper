@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+set -e
+
+# ------------------------------------------------------------------------------
+# :: Load Global Variables and Functions
+# ------------------------------------------------------------------------------
+# export DOTFILES_DIR="${HOME}/dotfiles"
+export BOOTSTRAP_DIR=$HOME/Workspace/bootstrapper
+
+if [ -d $BOOTSTRAP_DIR ]; then
+	source $BOOTSTRAP_DIR/lib/functions
+fi
+
+# ------------------------------------------------------------------------------
+# :: Make sure all the config files have been created
+# ------------------------------------------------------------------------------
+if [ ! -d $BOOTSTRAP_DIR ] && [ ! -f $BOOTSTRAP_DIR/brewfile.local ] && [ ! -f $BOOTSTRAP_DIR/config.local ]; then
+	echo
+	echo "Please run the setup script located at 'scripts/setup'"
+	exit 1
+fi
+
+# ------------------------------------------------------------------------------
+# :: Authenticate Sudo Upfront
+# ------------------------------------------------------------------------------
+
+# Ask for the administrator password upfront
+# sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until the script has finished
+# while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+# ------------------------------------------------------------------------------
+# :: Pre-Install Checks
+# ------------------------------------------------------------------------------
+
+# Before getting too far, make sure this is a Mac
+if [ $(uname) != "Darwin" ]; then
+	fancy_error "This setup script is only for MacOS"
+	exit 1
+fi
+
+# Make sure command line tools have been installed
+if ! command -v xcode-select > /dev/null; then
+  fancy_info "Installing Command Line Tools..."
+  # xcode-select --install
+fi
+
+# ------------------------------------------------------------------------------
+# :: Source Each Module
+# ------------------------------------------------------------------------------
+fancy_echo "${PINK} ☕  You might want to grab a cup of coffee, this could take a little while...${NO_COLOR}"
+
+modules=(
+	osx_hostname
+	oh_my_zsh
+	node
+	yarn
+	homebrew
+	ruby
+	dotfiles
+	post_install
+	osx_preferences
+	local_bootstrap
+)
+
+for module in "${modules[@]}"
+do
+	source "${BOOTSTRAP_DIR}/modules/$module"
+done
+
+fancy_success "☠️  Bootstrapper Setup Complete! Please restart your computer 🤘"
+
+fancy_echo "${PINK}Installation Summary ${NO_COLOR}"
+# TODO: Add all the appropriate package installations
+echo "$(rbenv -v)"
+echo "$(ruby -v)"
+echo "node $(node -v)"

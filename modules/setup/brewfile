@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+
+function install_ruby_version() {
+	if [ "$RUBY_VERSION_MANAGER" = 'rbenv' ]; then
+		echo "# Ruby Version Installation\nbrew 'rbenv'\n"
+
+	elif [ "$RUBY_VERSION_MANAGER" = 'chruby' ]; then
+		echo "# Ruby Version Installation\nbrew 'chruby'\nbrew 'ruby-install'\n"
+
+	elif [ "$RUBY_VERSION_MANAGER" = 'rvm' ]; then
+		echo "# Rube Version Installation (gpg recommended for RVM)\nbrew 'gpg'\n"
+	fi
+}
+
+function install_elixir() {
+	if [ "$INSTALL_ELIXIR" = true ]; then
+		echo "# Elixir / Phoenix Installation\nbrew 'elixir'\n"
+	fi
+}
+
+function install_react_native() {
+	if [ "$INSTALL_REACT_NATIVE" = true ]; then
+		echo "# ReactNative Installation\nbrew 'watchman'\nbrew 'flow'\n"
+	fi
+}
+
+function install_mysql() {
+	if [ "$INSTALL_MYSQL" = true ]; then
+		echo "# MySQL Installation\nbrew 'mysql', restart_service: true\n# brew 'mariadb', restart_service: true\n"
+	fi
+}
+
+function install_postgres() {
+	if [ "$INSTALL_POSTGRES" = true ]; then
+		echo "# PostgreSQL Installation\nbrew 'postgres', restart_service: true\n"
+	fi
+}
+
+function install_memcached() {
+	if [ "$INSTALL_MEMCACHED" = true ]; then
+		echo "# Memcached Installation\nbrew 'memcached', restart_service: true\n"
+	fi
+}
+
+function install_redis() {
+	if [ "$INSTALL_REDIS" = true ]; then
+		echo "# Redis Installation\nbrew 'redis', restart_service: true\n"
+	fi
+}
+
+function install_rabbitmq() {
+	if [ "$INSTALL_RABBITMQ" = true ]; then
+		echo "# RabbitMQ Installation\nbrew 'rabbitmq', restart_service: true\n"
+	fi
+}
+
+function install_elastic_search() {
+	if [ "$INSTALL_ELASTIC_SEARCH" = true ]; then
+		echo "# ElasticSearch Installation (required java)\ncask 'java'\nbrew 'elasticsearch', restart_service: true\n"
+	fi
+}
+
+# ---------------------------------------------------------------------------- #
+#  :: Generate local brewfile from config.local settings ::
+# ---------------------------------------------------------------------------- #
+function build_brew_file() {
+cat > "${BOOTSTRAP_DIR}/brewfile.local" << EOF
+#!/ruby
+
+# Homebrew -> https://github.com/Homebrew/brew/
+# Homebrew Bundle -> https://github.com/Homebrew/homebrew-bundle
+# Homebrew Cask -> https://github.com/caskroom/homebrew-cask
+# Homebrew Fonts -> https://github.com/caskroom/homebrew-fonts
+
+
+# Include (Tap) Homebrew Packages
+tap 'caskroom/cask'
+tap 'caskroom/versions'
+tap 'caskroom/fonts'
+tap 'homebrew/bundle'
+tap 'homebrew/core'
+tap 'homebrew/services'
+
+
+# Install Common Packages
+brew 'openssl'									# -> http://brewformulas.org/Openssl
+brew 'wget'											# -> http://brewformulas.org/Wget
+brew 'libxml2'									# -> http://brewformulas.org/Libxml2
+brew 'libxslt'									# -> http://brewformulas.org/Libxslt
+brew 'imagemagick'							# -> http://brewformulas.org/Imagemagick
+brew 'tree'											# -> http://brewformulas.org/Tree
+brew 'the_silver_searcher'			# -> http://brewformulas.org/TheSilverSearcher
+brew 'git' 											# -> http://brewformulas.org/Git
+
+
+# Install Development Packages (selected from config.local)
+
+$(install_ruby_version)
+
+$(install_elixir)
+
+$(install_react_native)
+
+$(install_mysql)
+
+$(install_postgres)
+
+$(install_memcached)
+
+$(install_redis)
+
+$(install_rabbitmq)
+
+$(install_elastic_search)
+
+
+# Install Applications from Source
+cask "google-chrome"
+cask "firefoxdeveloperedition"
+cask "dropbox"
+cask "atom"
+cask 'sublime-text'
+cask 'postico'
+cask 'sequel-pro'
+cask "iterm2"
+cask 'slack-beta'
+cask 'postman'
+
+
+# Install Apps from AppleStore (must have been previously downloaded)
+# brew 'mas'	# -> https://github.com/mas-cli/mas
+
+# MasCLI Apps
+# mas 'appName', id: appID
+
+EOF
+}
+
+# ---------------------------------------------------------------------------- #
+#  :: Setup brewfile.local ::
+# ---------------------------------------------------------------------------- #
+if [ ! -f "${BOOTSTRAP_DIR}/brewfile.local" ]; then
+	fancy_info "Creating brewfile bundle..."
+
+	build_brew_file
+
+	fancy_warning "Review brewfile.local and make any appropriate changes before re-running the script"
+	exit 1
+fi

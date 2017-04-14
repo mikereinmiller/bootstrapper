@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# https://github.com/creationix/nvm
+
+if [ ! -d $NVM_DIR ]; then
+	fancy_info "Installing NVM (Node Version Manager)..."
+	# curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+	# source ~/.zshrc  ?
+	# nvm install node
+	# nvm use node
+fi
+
+# Make sure NPM is up to date
+# npm install npm@latest -g
+
+# Install various NPM global packages
+# npm install --global brunch
+# npm install --global coffee-script
+# npm install --global caniuse-cmd
+# npm install --global speed-test
+# npm install --global redis-commander

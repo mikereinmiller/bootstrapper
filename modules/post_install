@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Make sure the appropriate directories are created
+# Make sure the hosts file has been updates (rabbitmq)
+# ect, etc.
+
+# TODO: Make appropriate app specific tweaks after installations

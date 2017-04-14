@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# Installation for rbenv and chruby are not included here, since they are installed via homebrew.
+
+# RVM: https://github.com/rvm/rvm
+if [ "$RUBY_VERSION_MANAGER" = "rvm" ]; then
+	fancy_info "Installing RVM..."
+	# command curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+
+	if [ "$DEFAULT_GLOBAL_RUBY" = "latest" ]; then
+		# \curl -sSL https://get.rvm.io | bash -s stable --ruby
+	else
+		# \curl -sSL https://get.rvm.io | bash
+		# rvm install ruby $DEFAULT_GLOBAL_RUBY
+	fi
+fi
+
+# Install Latest Ruby version per Package Manager
+
+if [ "$RUBY_VERSION_MANAGER" = "rbenv" ]; then
+	if [ "$DEFAULT_GLOBAL_RUBY" = "latest" ]; then
+		# rbenv install -l | grep -v - | tail -1
+	else
+		# rbenv install $DEFAULT_GLOBAL_RUBY
+	fi
+fi
+
+if [ "$RUBY_VERSION_MANAGER" = "chruby" ]; then
+	if [ "$DEFAULT_GLOBAL_RUBY" = "latest" ]; then
+		# ruby-install --latest ruby
+	else
+		# ruby-install ruby $DEFAULT_GLOBAL_RUBY
+	fi
+fi

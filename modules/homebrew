@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# https://brew.sh/
+
+if ! command -v brew > /dev/null; then
+  fancy_info "Installing Homebrew..."
+	# /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+fancy_info "Updating Homebrew Formulaes..."
+
+# Make sure we have the latest homebrew
+# brew update
+
+# Upgrade any previously-installed formulae
+# brew upgrade
+
+# Install Homebrew packages from the brewfile.
+# brew bundle --file=$BOOTSTRAP_DIR/brewfile.local
+
+# Remove outdated versions from the cellar.
+# brew cleanup

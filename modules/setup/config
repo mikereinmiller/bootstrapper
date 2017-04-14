@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# ---------------------------------------------------------------------------- #
+#  :: Generate Config File ::
+# ---------------------------------------------------------------------------- #
+function build_config_file() {
+cat > "${BOOTSTRAP_DIR}/config.local" << EOF
+#!/usr/bin/env bash
+
+# Configure Installation
+export INSTALL_ELIXIR=true
+export INSTALL_REACT_NATIVE=true
+export INSTALL_MYSQL=true
+export INSTALL_POSTGRES=true
+export INSTALL_MEMCACHED=true
+export INSTALL_REDIS=true
+export INSTALL_RABBITMQ=true
+export INSTALL_ELASTIC_SEARCH=true
+
+# Must be either rbenv, rvm or chruby
+export RUBY_VERSION_MANAGER=''
+
+# Specify latest or specific version returned from ruby manager
+export DEFAULT_GLOBAL_RUBY='latest'
+
+# Signin Credentials for MAS-CLI, password will be prompted when required
+export MAS_SIGNIN_EMAIL=''
+
+# Load custom dotfiles, use the repo below or fork it and make changes
+export DOTFILES_GIT_URL='git@github.com:mikereinmiller/dotfiles.git'
+
+# MacOS System Settings
+export HOST_NAME='$(HOSTNAME)'
+export COMPUTER_NAME='$(scutil --get ComputerName)'
+EOF
+}
+
+# ---------------------------------------------------------------------------- #
+#  :: Setup and Confirm config.local file ::
+# ---------------------------------------------------------------------------- #
+if [ ! -f "${BOOTSTRAP_DIR}/config.local" ]; then
+	fancy_info "Creating config.local file..."
+
+	build_config_file
+
+	fancy_warning "Please review config.local and re-run the script"
+	exit 1
+
+else
+	source "${BOOTSTRAP_DIR}/config.local"
+
+	if [ "$RUBY_VERSION_MANAGER" = "" ]; then
+		fancy_warning "Please update the settings in config.local before continuing"
+		exit 1
+	fi
+fi

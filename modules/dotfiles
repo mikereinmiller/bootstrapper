@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ ! -d $HOME/.dotfiles ]; then
+	fancy_info "Installing Custom DotFiles..."
+
+	# git clone $DOTFILES_GIT_URL ~/.dotfiles
+	# sh ~/.dotfiles/scripts/install
+fi

@@ -1,0 +1,39 @@
+# #!/usr/bin/env bash
+
+BLUE='\033[0;34m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+PINK='\033[0;35m'
+NO_COLOR='\033[0m'
+
+fancy_echo() {
+  local fmt="$1"; shift
+  printf "\n$fmt\n" "$@"
+}
+
+fancy_info() {
+	fancy_echo "[${BLUE} ℹ ${NO_COLOR}] ${BLUE} ${1} ${NO_COLOR}"
+}
+
+fancy_warning() {
+	fancy_echo "[${YELLOW} ? ${NO_COLOR}] ${YELLOW} ${1} ${NO_COLOR}"
+}
+
+fancy_success() {
+	fancy_echo "[${GREEN} ✓ ${NO_COLOR}] ${GREEN} ${1} ${NO_COLOR}"
+}
+
+fancy_error() {
+	fancy_echo "[${RED} ✗ ${NO_COLOR}] ${RED} ${1} ${NO_COLOR}"
+	exit 1
+}
+
+gem_install_or_update() {
+	if gem list "$1" --installed > /dev/null; then
+    gem update "$@"
+  else
+    gem install "$@"
+    rbenv rehash
+  fi
+}

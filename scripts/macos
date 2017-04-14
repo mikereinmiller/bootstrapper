@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+set -e
+
+# ------------------------------------------------------------------------------
+# :: Load Global Variables and Functions
+# ------------------------------------------------------------------------------
+export BOOTSTRAP_DIR=$HOME/Workspace/bootstrapper
+
+if [ -d $BOOTSTRAP_DIR ]; then
+	source $BOOTSTRAP_DIR/lib/functions
+fi
+
+# ------------------------------------------------------------------------------
+# :: Clone Bootstrap Repo (if !exist)
+# ------------------------------------------------------------------------------
+if [ ! -f $BOOTSTRAP_DIR/macos.local ]; then
+	fancy_echo "The macos.local file does not exist.  Copying..."
+	cp $BOOTSTRAP_DIR/modules/setup/macos $BOOTSTRAP_DIR/macos.local
+
+	fancy_warning "It is important that you review this file and make any appropriate changes, before running."
+	exit 1
+fi
+
+
+fancy_warning "Are You sure you want to run this macos preferences script? (y/n)"
+read response
+
+if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+	fancy_info "Running macos.local script..."
+	# source $BOOTSTRAP_DIR/macos.local
+
+	fancy_success "Script Complete, please restart your computer."
+fi
