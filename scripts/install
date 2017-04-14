@@ -3,23 +3,23 @@
 set -e
 
 # ------------------------------------------------------------------------------
-# :: Load Global Variables and Functions
+# :: Clone Bootstrap Repo (if !exist)
 # ------------------------------------------------------------------------------
-# export DOTFILES_DIR="${HOME}/dotfiles"
+# export BOOTSTRAP_DIR=$HOME/bootstrapper
 export BOOTSTRAP_DIR=$HOME/Workspace/bootstrapper
 
-if [ -d $BOOTSTRAP_DIR ]; then
-	source $BOOTSTRAP_DIR/lib/functions
+if [ ! -d $BOOTSTRAP_DIR ]; then
+	echo "Cloning Bootstrapper Repo"
+	# git clone master https://github.com/mikereinmiller/boostrapper.git "${BOOTSTRAP_DIR}"
 fi
+
+source $BOOTSTRAP_DIR/lib/functions
 
 # ------------------------------------------------------------------------------
 # :: Make sure all the config files have been created
 # ------------------------------------------------------------------------------
-if [ ! -d $BOOTSTRAP_DIR ] && [ ! -f $BOOTSTRAP_DIR/brewfile.local ] && [ ! -f $BOOTSTRAP_DIR/config.local ]; then
-	echo
-	echo "Please run the setup script located at 'scripts/setup'"
-	exit 1
-fi
+source  $BOOTSTRAP_DIR/modules/setup/config
+source  $BOOTSTRAP_DIR/modules/setup/brewfile
 
 # ------------------------------------------------------------------------------
 # :: Authenticate Sudo Upfront
@@ -61,7 +61,6 @@ modules=(
 	ruby
 	dotfiles
 	post_install
-	osx_preferences
 	local_bootstrap
 )
 
@@ -70,10 +69,20 @@ do
 	source "${BOOTSTRAP_DIR}/modules/$module"
 done
 
-fancy_success "☠️  Bootstrapper Setup Complete! Please restart your computer 🤘"
+tabs 4
 
 fancy_echo "${PINK}Installation Summary ${NO_COLOR}"
-# TODO: Add all the appropriate package installations
-echo "$(rbenv -v)"
-echo "$(ruby -v)"
-echo "node $(node -v)"
+if [ "$RUBY_VERSION_MANAGER" = "rbenv" ]; then
+	echo "\t$(rbenv -v)"
+fi
+
+echo "\t$(ruby -v)"
+# echo "nvm $(nvm --version)"
+echo "\tnode $(node -v)"
+echo "\tnpm $(npm -v)"
+
+elx="\t$(elixir -v)"
+echo "\t${elx: -12}"
+echo "\t$(mix phoenix.new -v)"
+
+fancy_success "☠️  Bootstrapper Setup Complete! Please restart your computer 🤘"

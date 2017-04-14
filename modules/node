@@ -11,6 +11,7 @@ if [ ! -d $NVM_DIR ]; then
 	# nvm alis default node ?
 fi
 
+fancy_info "Installing NPM packages..."
 # Make sure NPM is up to date
 # npm install npm@latest -g
 
@@ -22,5 +23,6 @@ fi
 # npm install --global redis-commander
 
 if [ "$INSTALL_REACT_NATIVE" = true ]; then
+	fancy_info "Installing ReactNative CLI..."
 	# npm install --global react-native-cli
 fi

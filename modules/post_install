@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 # Force Homebrew to link current OpenSSL version (overrides osx default)
-openssl="$(brew list --versions | grep openssl)"
-ln -s "/usr/local/Cellar/openssl/${openssl: -6}/bin/openssl" "/usr/local/bin/openssl"
+fancy_info "Linking Homebrew OpenSSL"
+# openssl="$(brew list --versions | grep openssl)"
+# ln -s "/usr/local/Cellar/openssl/${openssl: -6}/bin/openssl" "/usr/local/bin/openssl"
 
+fancy_info "Updating and Installing Ruby Gems"
 # Update and Install Gems
 # gem update --system
 # gem install bundler
@@ -15,59 +17,74 @@ ln -s "/usr/local/Cellar/openssl/${openssl: -6}/bin/openssl" "/usr/local/bin/ope
 
 # Start MySQL / MariaDB Service
 if brew ls --versions mysql > /dev/null; then
+  fancy_info "Starting MYSQL Service"
   # brew services start mysql
 elif brew ls --versions mariadb > /dev/null; then
+  fancy_info "Starting MariaDB Service"
   # brew servies start mariadb
 fi
 
 # Start Postgres Service
 if brew ls --versions postgres > /dev/null; then
+  fancy_info "Starting Postgres Service"
   # brew services start postgresql
 fi
 
 if brew ls --versions memcached > /dev/null; then
+  fancy_info "Starting Memcached Service"
   # brew services start memcached
 fi
 
 # Start Redis Service
 if brew ls --versions redis > /dev/null; then
+  fancy_info "Finding or Creating redis config and directory"
   # Make sure redis configs exist and start service
   if [ ! -f /usr/local/etc/redis.conf ]; then
+    echo
     # cp /usr/local/etc/redis.conf.default /usr/local/etc/redis.conf
   fi
 
   if [ ! -d /usr/local/var/db/redis ]; then
+    echo
     # mkdir -p /usr/local/var/db/redis
   fi
 
+  fancy_info "Starting Redis Service"
   # brew services start redis
 fi
 
 # Start RabbitMQ Service
 if brew ls --versions rabbitmq > /dev/null; then
+  fancy_info "Install Rabbit Delayed Messages Plugin"
   # Install Rabbit Delayed Messages Exchange Plugin
   # wget -O /usr/local/opt/rabbitmq/plugins/abbitmq_delayed_message_exchange-0.0.1.ez https://bintray.com/rabbitmq/community-plugins/download_file?file_path=rabbitmq_delayed_message_exchange-0.0.1.ez
 
   # Enable It
   # /usr/local/opt/rabbitmq/sbin/rabbitmq-plugins enable rabbitmq_delayed_message_exchange
 
+  fancy_info "Updating Hostfile for RabbitMQ"
   # Attempt to update host file to correctly work with rabbitmq
-  # echo "127.0.0.1 ${HOST_NAME}" >> /etc/hosts
-  # echo "127.0.0.1 ${HOST_NAME,,}" >> /etc/hosts
-  # echo "::1 ${HOST_NAME}" >> /etc/hosts
-  # echo "::1 ${HOST_NAME,,}" >> /etc/hosts
+  # echo "\n# RabbitMQ Host Settings\n" >> /etc/hosts
+  # echo "\n127.0.0.1 ${HOST_NAME}\n" >> /etc/hosts
+  # echo "\n127.0.0.1 ${HOST_NAME,,}\n" >> /etc/hosts
+  # echo "\n::1 ${HOST_NAME}\n" >> /etc/hosts
+  # echo "\n::1 ${HOST_NAME,,}\n" >> /etc/hosts
 
   # killall -HUP mDNSResponder
+
+  fancy_info "Starting RabbitMQ Service"
   # brew services start rabbitmq
 fi
 
 # Start ElasticSearch Service
 if brew ls --versions elasticsearch > /dev/null; then
+  fancy_info "Starting ElasticSearch Service"
   # brew services start elasticsearch
 fi
 
 # Install Mix and Phoenix
 if command -v elixir > /dev/null; then
+  fancy_info "Instaling Mix & Phoenix"
   # mix local.hex
   # mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
 fi

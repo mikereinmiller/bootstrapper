@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
-if [ ! -d $HOME/.dotfiles ]; then
-	fancy_info "Installing Custom DotFiles..."
+if [ "$DOTFILES_GIT_URL" = "" ]; then
+	fancy_warning "Since you are not cloning any DOTFILES, please make sure you manually update your `~/.zshrc` file."
 
-	# git clone $DOTFILES_GIT_URL ~/.dotfiles
-	# sh ~/.dotfiles/scripts/install
+else
+	if [ ! -d $HOME/.dotfiles ]; then
+		fancy_info "Installing Custom DotFiles..."
+
+		# git clone $DOTFILES_GIT_URL ~/.dotfiles
+		# sh ~/.dotfiles/scripts/install
+	fi
 fi

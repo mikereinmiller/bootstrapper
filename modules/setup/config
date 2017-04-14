@@ -40,14 +40,14 @@ if [ ! -f "${BOOTSTRAP_DIR}/config.local" ]; then
 
 	build_config_file
 
-	fancy_warning "Please review config.local and re-run the script"
+	fancy_warning "Please review ${BOOTSTRAP_DIR}/config.local and re-run the script"
 	exit 1
 
 else
 	source "${BOOTSTRAP_DIR}/config.local"
 
 	if [ "$RUBY_VERSION_MANAGER" = "" ]; then
-		fancy_warning "Please update the settings in config.local before continuing"
+		fancy_warning "Please update the settings in ${BOOTSTRAP_DIR}/config.local before continuing"
 		exit 1
 	fi
 fi

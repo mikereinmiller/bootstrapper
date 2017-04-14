@@ -140,10 +140,10 @@ EOF
 #  :: Setup brewfile.local ::
 # ---------------------------------------------------------------------------- #
 if [ ! -f "${BOOTSTRAP_DIR}/brewfile.local" ]; then
-	fancy_info "Creating brewfile bundle..."
+	fancy_info "Creating brewfile bundle based on config settings..."
 
 	build_brew_file
 
-	fancy_warning "Review brewfile.local and make any appropriate changes before re-running the script"
+	fancy_warning "Review ${BOOTSTRAP_DIR}/brewfile.local and make any appropriate changes before re-running the script"
 	exit 1
 fi

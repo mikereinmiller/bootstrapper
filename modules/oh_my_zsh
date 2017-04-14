@@ -5,7 +5,9 @@
 if [ ! -d $HOME/.oh-my-zsh ]; then
 	fancy_info "Installing Oh-My-Zsh..."
 	# git clone git://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh
-	# cp $HOME/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+	# if [ ! -e $HOME/.zshrc ]; then
+		# cp $HOME/.oh-my-zsh/templates/zshrc.zsh-template $HOME/.zshrc
+	# fi
 	# chsh -s $(which zsh)
 
 	# Install ZSH-Autosuggestion plugin
