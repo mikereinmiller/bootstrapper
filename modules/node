@@ -21,6 +21,7 @@ fancy_info "Installing NPM packages..."
 # npm install --global caniuse-cmd
 # npm install --global speed-test
 # npm install --global redis-commander
+# npm install --global diff-so-fancy
 
 if [ "$INSTALL_REACT_NATIVE" = true ]; then
 	fancy_info "Installing ReactNative CLI..."

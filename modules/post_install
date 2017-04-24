@@ -5,7 +5,7 @@ fancy_info "Linking Homebrew OpenSSL"
 # openssl="$(brew list --versions | grep openssl)"
 # ln -s "/usr/local/Cellar/openssl/${openssl: -6}/bin/openssl" "/usr/local/bin/openssl"
 
-fancy_info "Updating and Installing Ruby Gems"
+fancy_info "Updating Ruby Gems"
 # Update and Install Gems
 # gem update --system
 # gem install bundler
@@ -37,7 +37,7 @@ fi
 
 # Start Redis Service
 if brew ls --versions redis > /dev/null; then
-  fancy_info "Finding or Creating redis config and directory"
+  fancy_info "Setting up Redis Config"
   # Make sure redis configs exist and start service
   if [ ! -f /usr/local/etc/redis.conf ]; then
     echo
@@ -55,7 +55,7 @@ fi
 
 # Start RabbitMQ Service
 if brew ls --versions rabbitmq > /dev/null; then
-  fancy_info "Install Rabbit Delayed Messages Plugin"
+  fancy_info "Installing RabbitMQ Delayed Messages Plugin"
   # Install Rabbit Delayed Messages Exchange Plugin
   # wget -O /usr/local/opt/rabbitmq/plugins/abbitmq_delayed_message_exchange-0.0.1.ez https://bintray.com/rabbitmq/community-plugins/download_file?file_path=rabbitmq_delayed_message_exchange-0.0.1.ez
 
@@ -84,7 +84,7 @@ fi
 
 # Install Mix and Phoenix
 if command -v elixir > /dev/null; then
-  fancy_info "Instaling Mix & Phoenix"
+  fancy_info "Installing Mix & Phoenix"
   # mix local.hex
   # mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
 fi

@@ -22,7 +22,7 @@ if [ ! -f $BOOTSTRAP_DIR/macos.local ]; then
 	fancy_echo "The macos.local file does not exist.  Copying..."
 	cp $BOOTSTRAP_DIR/modules/setup/macos $BOOTSTRAP_DIR/macos.local
 
-	fancy_warning "It is important that you review this file and make any appropriate changes, before running."
+	fancy_warning "It is important that you review this file and make any appropriate changes, before re-running."
 	exit 1
 fi
 

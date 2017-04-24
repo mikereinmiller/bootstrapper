@@ -56,7 +56,7 @@ function install_rabbitmq() {
 
 function install_elastic_search() {
 	if [ "$INSTALL_ELASTIC_SEARCH" = true ]; then
-		echo "# ElasticSearch Installation (required java)\ncask 'java'\nbrew 'elasticsearch', restart_service: true\n"
+		echo "# ElasticSearch Installation (requires java)\ncask 'java'\nbrew 'elasticsearch', restart_service: true\n"
 	fi
 }
 
@@ -93,7 +93,7 @@ brew 'the_silver_searcher'			# -> http://brewformulas.org/TheSilverSearcher
 brew 'git' 											# -> http://brewformulas.org/Git
 
 
-# Install Development Packages (selected from config.local)
+# Homebrew Development Packages (selected from config.local)
 
 $(install_ruby_version)
 
