@@ -14,4 +14,7 @@ sign into your iCloud account before proceeding: System Preferences -> iCloud.
 
 ### Installation
 
+Clone and run from project directory `sh scripts/install`.
+
+
 TODO: Add instructions and update readme.
