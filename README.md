@@ -1,10 +1,3 @@
-https://github.com/fs/osx-bootstrap/blob/master/README.md
-https://github.com/joshukraine/mac-bootstrap
-https://github.com/donnemartin/dev-setup
-
-https://github.com/mathiasbynens/dotfiles
-https://code.tutsplus.com/tutorials/setting-up-a-mac-dev-machine-from-zero-to-hero-with-dotfiles--net-35449
-
 **WIP** This is a work in progress, it is currently not finished, use at your own risk.
 
 # Bootstrapper
